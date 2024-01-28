@@ -1,5 +1,6 @@
 # NutriSnap
 ![NutriSnap photo 1](https://github.com/JakeDeines/NutriSnap/assets/67669417/67d8e8ea-b09a-4aa6-aa56-f1b1daf5f7ca)
+
 NutriSnap is an innovative application designed to utilize the power of artificial intelligence to analyze images of food and provide nutritional insights. By leveraging the OpenAI API, NutriSnap offers users a quick and informative breakdown of the food items captured in their images.
 
 ## Features
@@ -14,7 +15,13 @@ NutriSnap is an innovative application designed to utilize the power of artifici
 1. **Upload**: Select an image of your food item.
 2. **Analyze**: Click 'Upload' and the image will be sent to OpenAI's GPT-4 model for analysis.
 3. **Review**: Nutritional information and other details provided by the AI will be displayed on screen.
+
+
+
 ![NutriSnap photo 2](https://github.com/JakeDeines/NutriSnap/assets/67669417/0641f14c-9dbe-41b1-a5e9-1f2fd61be3ba)
+
+
+
 ## Installation
 
 To set up the NutriSnap application on your local machine, follow these steps:
