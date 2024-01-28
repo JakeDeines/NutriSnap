@@ -1,0 +1,95 @@
+
+  
+/* Color palette based on the logo */
+:root {
+    --primary-color: #457c47d5; /* Dark cyan color */
+    --secondary-color: #00A7CE; /* Bright blue color */
+    --accent-color: #FFB22D; /* Bright yellow color */
+    --background-color: #f7f9df; /* Dark green color */
+    --primary-hover-color: #457C47; /* You may choose a hover color that complements the primary color */
+}
+
+
+/* Styling for the form */
+form {
+    position: absolute;
+    bottom: 10px; /* Adjust as needed to position at the desired distance from the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center the form horizontally */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%; /* Adjust the width as needed */
+  }
+
+/* Styling for the file input */
+input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Styling for the submit button */
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Hover effect for button */
+button:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* Styling for the response message */
+.response {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color:white;
+}
+
+/* Text color for headings and paragraphs */
+h3 {
+    margin: 0 0 10px;
+    color: var(--primary-color);
+}
+
+p {
+    margin: 5px 0;
+    color: black;
+}
+
+/* Styling for the logo image */
+/* Styling for the logo image with a fun border */
+.logo {
+    display: block;
+    margin: 0 auto 20px; /* Centers the logo and adds margin at the bottom */
+    max-width: 100px; /* Adjust the size as needed */
+    /* Keeps the aspect ratio of the image */
+    border: 5px solid var(--accent-color); /* Solid border with the accent color from your palette */
+    border-radius: 50%; /* Circular border, you can adjust or remove for different shapes */
+    padding: 8px; /* Space between the border and the image */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    background-color: white; /* Background color to stand out from the container if needed */
+    transition: transform 0.3s ease; /* Smooth transformation on hover */
+   
+   
+}
+
+.logo:hover {
+    transform: scale(1.05); /* Slightly enlarges the logo on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhances shadow on hover for a 'lifting' effect */
+}
+
+.paperclip-icon {
+    cursor: pointer;
+    /* Add additional styling if needed */
+}

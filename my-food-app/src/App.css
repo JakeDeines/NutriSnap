@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.App-header h1 {
+  font-size: 3rem; /* Large size for emphasis */
+  font-weight: 700; /* Bold weight for assertiveness */
+  color: #fff; /* Crisp white, assuming a darker background */
+  text-align: center;
+  letter-spacing: 1px; /* Slight letter spacing for a polished look */
+  margin: 20px 0;
+  padding: 10px 20px; /* Slight padding to give space for the border */
+  font-family: 'Montserrat', sans-serif; /* Montserrat font for a modern, bold look */
+  text-transform: uppercase; /* Capitalized text for additional emphasis */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow for depth */
+ 
+}

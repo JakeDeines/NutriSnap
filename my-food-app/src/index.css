@@ -1,0 +1,25 @@
+body {
+  background-image: 
+    linear-gradient(to right, rgba(17, 41, 20, 0.6), rgba(5, 78, 21, 0.3)),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 1px, transparent 1px, transparent 50px),
+    repeating-linear-gradient(-45deg, rgba(255, 255, 255, 0.1) 0, rgba(255, 255, 255, 0.1) 1px, transparent 1px, transparent 50px),
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(circle at bottom right, rgba(255, 255, 255, 0.4), transparent);
+    background-image: url('C:\Users\jdein\OneDrive\Desktop\NutriSnap\my-food-app\public\images\onder-ortel-o_InnwGSRFM-unsplash.jpg');
+    background-blend-mode: multiply; /* Blend the image with your gradients */
+    
+    background-size: cover; /* Ensure the background covers the entire area */
+    background-repeat: no-repeat; /* Prevent repeating the background image */
+    margin: 0;
+  
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
