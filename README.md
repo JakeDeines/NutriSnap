@@ -29,8 +29,9 @@ To set up the NutriSnap application on your local machine, follow these steps:
 ```bash
 git clone https://github.com/yourusername/NutriSnap.git
 cd NutriSnap
-
+```
 ## Backend Setup
+
 Navigate to the backend directory and install the necessary dependencies:
 
 ```bash
@@ -38,9 +39,9 @@ cd backend
 npm install
 
 Create a .env file with your OpenAI API key:
+
 OPENAI_API_KEY=your_openai_api_key
 
-```bash
 Start the backend server:
 npm start
 Frontend Setup
@@ -57,7 +58,7 @@ Start the frontend application:
 npm start
 
 The application should now be running and accessible in your browser.
-
+```
 ## Technology Stack
 Frontend: React.js, FontAwesome for icons
 Backend: Node.js, Express.js for server functionality, Multer for file uploads, OpenAI SDK for AI-powered analysis
