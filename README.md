@@ -37,28 +37,35 @@ Navigate to the backend directory and install the necessary dependencies:
 ```bash
 cd backend
 npm install
-
+```
 Create a .env file with your OpenAI API key:
 
+```bash
 OPENAI_API_KEY=your_openai_api_key
+```
 
 Start the backend server:
+
+```bash
 npm start
 Frontend Setup
+```
 
 Navigate to the frontend (my-food-app) directory and install the dependencies:
 
 ```bash
 cd my-food-app
 npm install
+```
 
 Start the frontend application:
 
 ```bash
 npm start
+```
 
 The application should now be running and accessible in your browser.
-```
+
 ## Technology Stack
 Frontend: React.js, FontAwesome for icons
 Backend: Node.js, Express.js for server functionality, Multer for file uploads, OpenAI SDK for AI-powered analysis
