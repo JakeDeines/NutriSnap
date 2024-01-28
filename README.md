@@ -1,5 +1,5 @@
 # NutriSnap
-
+![Uploading NutriSnap photo 1.png…]()
 NutriSnap is an innovative application designed to utilize the power of artificial intelligence to analyze images of food and provide nutritional insights. By leveraging the OpenAI API, NutriSnap offers users a quick and informative breakdown of the food items captured in their images.
 
 ## Features
