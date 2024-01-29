@@ -2,22 +2,22 @@
   "name": "nutrisnap",
   "version": "1.0.0",
   "description": "The AI-Powered Nutritional Analysis App is an advanced web application that allows users to upload images of food items and receive a detailed analysis of the nutritional content present in the image.",
-  
   "scripts": {
     "start": "node backend/server.js",
-    "start-backend": "cd backend && npm start",
-    "start-frontend": "cd my-food-app && npm start",
-    "install-backend": "cd backend && npm install",
-    "install-frontend": "cd my-food-app && npm install",
-    "build-frontend": "cd my-food-app && npm run build",
+    "server": "nodemon backend/server.js",
+    "client": "npm start --prefix my-food-app",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm install && npm install --prefix my-food-app && npm run build --prefix my-food-app",
     "postinstall": "npm run install-backend && npm run install-frontend"
   },
   "engines": {
     "node": ">=14.0.0"
   },
-
-  
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.3"
+  }
 }
