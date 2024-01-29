@@ -4,6 +4,7 @@
   "description": "The AI-Powered Nutritional Analysis App is an advanced web application that allows users to upload images of food items and receive a detailed analysis of the nutritional content present in the image.",
   
   "scripts": {
+    "start": "node backend/server.js",
     "start-backend": "cd backend && npm start",
     "start-frontend": "cd my-food-app && npm start",
     "install-backend": "cd backend && npm install",
