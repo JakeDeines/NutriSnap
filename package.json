@@ -7,7 +7,9 @@
     "server": "nodemon backend/server.js",
     "client": "npm start --prefix my-food-app",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm install && npm install --prefix my-food-app && npm run build --prefix my-food-app",
+    "install-backend": "cd backend && npm install",
+    "install-frontend": "cd my-food-app && npm install",
+    "build-frontend": "cd my-food-app && npm run build",
     "postinstall": "npm run install-backend && npm run install-frontend"
   },
   "engines": {
