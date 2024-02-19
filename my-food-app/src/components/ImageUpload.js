@@ -12,6 +12,7 @@ function ImageUpload() {
   const [responseMessage, setResponseMessage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fileSelected, setFileSelected] = useState(false); // Updated state name for clarity
+  const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || "http://localhost:3001";
 
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
@@ -27,12 +28,9 @@ function ImageUpload() {
     formData.append("image", selectedFile);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3001/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+      const response = await axios.post(`${API_ENDPOINT}/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
           },
         }
       );
