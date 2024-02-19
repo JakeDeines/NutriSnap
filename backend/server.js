@@ -1,12 +1,6 @@
 // Load environment variables from .env file at the very start
 require('dotenv').config();
 
-// Temporarily log the OpenAI API key to verify it's loaded
-console.log(process.env.OPENAI_API_KEY);
-
-
-
-
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
@@ -15,7 +9,13 @@ const path = require('path');
 const OpenAI = require('openai');
 
 const app = express();
-app.use(cors());
+
+// Conditionally set CORS for development or production
+if (process.env.NODE_ENV === 'production') {
+  app.use(cors({ origin: 'https://yourproductiondomain.com' }));
+} else {
+  app.use(cors());
+}
 
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -23,13 +23,10 @@ if (!fs.existsSync(uploadsDir)) {
     fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-
-
-
 // Multer setup for handling file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, 'uploads')); // Ensure files are saved in the backend/uploads
+      cb(null, path.join(__dirname, 'uploads'));
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname);
@@ -40,12 +37,15 @@ const upload = multer({ storage: storage });
 // Initialize OpenAI SDK
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
+// Log the OpenAI API key only in development environment
+if (process.env.NODE_ENV !== 'production') {
+  console.log(`OpenAI API Key: ${process.env.OPENAI_API_KEY}`);
+}
+
 // Route to handle image upload and analysis
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
     const filePath = path.join(__dirname, 'uploads', req.file.filename);
-    console.log(`File uploaded and saved to ${filePath}`); // Log the file path here
-    
     const imageData = fs.readFileSync(filePath).toString('base64');
 
     const response = await openai.chat.completions.create({
@@ -65,13 +65,30 @@ app.post('/upload', upload.single('image'), async (req, res) => {
           ]
         }
       ],
-      max_tokens: 500 // Increase this value as needed to get a more detailed response
+      max_tokens: 500
     });
-    console.log(response.choices[0]);
     res.status(200).json(response.choices[0]);
   } catch (error) {
     console.error("Error processing the image", error);
     res.status(500).send("Error processing the image");
+  }
+});
+
+// Serve static files and SPA in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../my-food-app/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../my-food-app/build', 'index.html'));
+  });
+}
+
+// Custom error handling
+app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    console.error(err.stack);
+    res.status(500).send({ message: err.message, stack: err.stack });
+  } else {
+    res.status(500).send({ message: "An error occurred, please try again later." });
   }
 });
 
