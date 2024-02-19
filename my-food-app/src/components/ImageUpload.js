@@ -4,15 +4,21 @@ import Modal from "./Modal"; // Import Modal component
 import withCellPhoneFrame from "./CellPhoneFrame";
 import "./ImageUpload.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import { faPaperclip, faCheck } from "@fortawesome/free-solid-svg-icons";
 
 function ImageUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [fileSelected, setFileSelected] = useState(false); // Updated state name for clarity
 
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    if (e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+      setFileSelected(true); // Set true as soon as a file is selected
+    } else {
+      setFileSelected(false); // Reset if no file is selected
+    }
   };
 
   const handleUpload = async () => {
@@ -29,11 +35,10 @@ function ImageUpload() {
           },
         }
       );
-
-      // Assuming the response contains a message and a finish_reason
       const message = response.data.message.content;
       const finishReason = response.data.finish_reason;
       setResponseMessage({ message, finishReason });
+      setFileSelected(false); // Optionally reset after successful upload
     } catch (error) {
       console.error("Error uploading the file", error);
       setResponseMessage({
@@ -41,9 +46,9 @@ function ImageUpload() {
         finishReason: "",
       });
     }
-    setIsModalOpen(true); // Open the modal after receiving the response
+    setIsModalOpen(true);
   };
-  // Function to close the modal
+
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -68,13 +73,11 @@ function ImageUpload() {
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        <label htmlFor="fileInput" className="paperclip-icon">
-          <FontAwesomeIcon icon={faPaperclip} size="2x" />
+        <label htmlFor="fileInput" className={`paperclip-icon ${fileSelected ? 'green-checkmark' : ''}`}>
+          <FontAwesomeIcon icon={fileSelected ? faCheck : faPaperclip} size="2x" className={fileSelected ? 'checkmark-animation' : ''} />
         </label>
         <button type="submit">Upload</button>
       </form>
-
-      {/* Modal is placed directly within the container, not inside any other div */}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}

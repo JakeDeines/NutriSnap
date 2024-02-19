@@ -93,3 +93,39 @@ p {
     cursor: pointer;
     /* Add additional styling if needed */
 }
+
+/* Hover effect */
+.paperclip-icon:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+  
+  /* Active/click effect */
+  .paperclip-icon:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+/* Define a keyframe animation for the checkmark */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Apply the animation to the checkmark icon */
+.checkmark-animation {
+    animation: checkmark 0.5s ease-in-out forwards;
+}
+
+/* Style for the green checkmark */
+.green-checkmark {
+    color: #28a745; /* Bootstrap success color for reference */
+}
