@@ -59,4 +59,9 @@
     border-radius: 50%; /* Makes it a circle */
     box-shadow: 0 0 8px rgba(236, 235, 235, 0.6); /* Adds a bit of shine to the lens */
   }
-  
+  .app-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This takes up the full viewport height */
+}

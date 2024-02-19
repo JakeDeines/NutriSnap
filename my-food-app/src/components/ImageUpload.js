@@ -5,6 +5,7 @@ import withCellPhoneFrame from "./CellPhoneFrame";
 import "./ImageUpload.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip, faCheck } from "@fortawesome/free-solid-svg-icons";
+import logo from'../assets/images/logo.png'; // Adjust the path as necessary
 
 function ImageUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -65,7 +66,7 @@ function ImageUpload() {
 
   return (
     <div className="container">
-      <img src="/images/logo.png" alt="Logo" className="logo" />
+      <img src={logo} alt="Logo" className="logo" />
       <form onSubmit={handleSubmit}>
         <input
           type="file"

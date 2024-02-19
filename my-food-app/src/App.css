@@ -2,16 +2,29 @@
   text-align: center;
 }
 
-.App-header h1 {
-  font-size: 3rem; /* Large size for emphasis */
-  font-weight: 700; /* Bold weight for assertiveness */
-  color: #fff; /* Crisp white, assuming a darker background */
-  text-align: center;
-  letter-spacing: 1px; /* Slight letter spacing for a polished look */
-  margin: 20px 0;
-  padding: 10px 20px; /* Slight padding to give space for the border */
-  font-family: 'Montserrat', sans-serif; /* Montserrat font for a modern, bold look */
-  text-transform: uppercase; /* Capitalized text for additional emphasis */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow for depth */
- 
-}
+
+  .App-header h1 {
+    font-size: 3rem; /* Large size for emphasis */
+    font-weight: 700; /* Bold weight for assertiveness */
+    color: #fff; /* Crisp white, assuming a darker background */
+    text-align: center;
+    letter-spacing: 1px; /* Slight letter spacing for a polished look */
+    margin: 10px ;
+    
+    padding: 15px 20px; /* Slight padding to give space around the text */
+    font-family: 'Montserrat', sans-serif; /* Montserrat font for a modern, bold look */
+    text-transform: uppercase; /* Capitalized text for additional emphasis */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Subtle text shadow for depth */
+    background: linear-gradient(45deg, #cb7411 20%, #e90e0e 30%, #1e7531 100%); /* Vibrant gradient background */
+    border-radius: 5px; /* Rounded corners for a smoother look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Soft box shadow for depth */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Semi-transparent white border for a sleek edge */
+    
+  }
+  
+  .App-header h1:hover {
+   
+    
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover for a popping effect */
+  }
+  
