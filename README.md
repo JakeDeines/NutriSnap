@@ -28,7 +28,7 @@ NutriSnap is an innovative application designed to utilize the power of artifici
 To set up the NutriSnap application on your local machine, follow these steps:
 
 ```bash
-git clone https://github.com/yourusername/NutriSnap.git
+git clone https://github.com/JakeDeines/NutriSnap.git
 cd NutriSnap
 ```
 ## Backend Setup
