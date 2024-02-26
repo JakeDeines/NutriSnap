@@ -68,5 +68,16 @@ npm start
 The application should now be running and accessible in your browser.
 
 ## Technology Stack
-Frontend: React.js, FontAwesome for icons
-Backend: Node.js, Express.js for server functionality, Multer for file uploads, OpenAI SDK for AI-powered analysis
+
+| Area         | Technology     | Description                                                      |
+|--------------|----------------|------------------------------------------------------------------|
+| Frontend     | React.js       | The framework used for building the user interface.              |
+|              | FontAwesome    | Provides icons for the application.                              |
+| Backend      | Node.js        | The runtime environment for the server-side application.         |
+|              | Express.js     | The web application framework used for server functionality.     |
+|              | Multer         | A middleware for handling file uploads.                          |
+|              | OpenAI SDK     | Used for AI-powered analysis and interaction with the OpenAI API.|
+|              | Axios          | Promise based HTTP client for making HTTP requests.              |
+| Utilities    | Concurrently   | Tool to run multiple npm scripts concurrently.                   |
+| UI Components| Modal          | Used for creating modal dialog boxes.                            |
+| Hosting      | Railway        | Platform for deploying and hosting the application.              |
