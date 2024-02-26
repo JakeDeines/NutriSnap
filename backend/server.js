@@ -12,11 +12,10 @@ const app = express();
 
 // Conditionally set CORS for development or production
 if (process.env.NODE_ENV === 'production') {
-  app.use(cors({ origin: 'https://yourproductiondomain.com' }));
+  app.use(cors({ origin: 'https://nutrisnap-production.up.railway.app' }));
 } else {
   app.use(cors());
 }
-
 // Ensure the uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
