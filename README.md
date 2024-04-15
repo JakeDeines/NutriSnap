@@ -20,6 +20,7 @@ NutriSnap is an innovative application designed to utilize the power of artifici
 
 ![NutriSnap photo 2](https://github.com/JakeDeines/NutriSnap/assets/67669417/0641f14c-9dbe-41b1-a5e9-1f2fd61be3ba)
 
+[Check out the live app here!](https://nutrisnap-production.up.railway.app/)
 
 
 ## Installation
@@ -27,7 +28,7 @@ NutriSnap is an innovative application designed to utilize the power of artifici
 To set up the NutriSnap application on your local machine, follow these steps:
 
 ```bash
-git clone https://github.com/yourusername/NutriSnap.git
+git clone https://github.com/JakeDeines/NutriSnap.git
 cd NutriSnap
 ```
 ## Backend Setup
@@ -67,5 +68,16 @@ npm start
 The application should now be running and accessible in your browser.
 
 ## Technology Stack
-Frontend: React.js, FontAwesome for icons
-Backend: Node.js, Express.js for server functionality, Multer for file uploads, OpenAI SDK for AI-powered analysis
+
+| Area         | Technology     | Description                                                      |
+|--------------|----------------|------------------------------------------------------------------|
+| Frontend     | React.js       | The framework used for building the user interface.              |
+|              | FontAwesome    | Provides icons for the application.                              |
+| Backend      | Node.js        | The runtime environment for the server-side application.         |
+|              | Express.js     | The web application framework used for server functionality.     |
+|              | Multer         | A middleware for handling file uploads.                          |
+|              | OpenAI SDK     | Used for AI-powered analysis and interaction with the OpenAI API.|
+|              | Axios          | Promise based HTTP client for making HTTP requests.              |
+| Utilities    | Concurrently   | Tool to run multiple npm scripts concurrently.                   |
+| UI Components| Modal          | Used for creating modal dialog boxes.                            |
+| Hosting      | Railway        | Platform for deploying and hosting the application.              |
