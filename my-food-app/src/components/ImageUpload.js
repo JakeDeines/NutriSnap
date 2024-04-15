@@ -18,6 +18,9 @@ function ImageUpload() {
     if (e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
       setFileSelected(true); // Set true as soon as a file is selected
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
     } else {
       setFileSelected(false); // Reset if no file is selected
     }
@@ -61,17 +64,27 @@ function ImageUpload() {
       setResponseMessage("No file selected");
     }
   };
-
   return (
     <div className="container">
-      <img src={logo} alt="Logo" className="logo" />
       <form onSubmit={handleSubmit}>
         <input
           type="file"
-          id="fileInput"
+          accept="image/*"
+          capture="environment" // Use "environment" to prefer the rear camera
           style={{ display: "none" }}
+          id="cameraInput"
           onChange={handleFileChange}
         />
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          id="fileInput"
+          onChange={handleFileChange}
+        />
+        <label htmlFor="cameraInput" className="camera-icon">
+          <img src={logo} alt="Logo" className="logo" />
+        </label>
         <label htmlFor="fileInput" className={`paperclip-icon ${fileSelected ? 'green-checkmark' : ''}`}>
           <FontAwesomeIcon icon={fileSelected ? faCheck : faPaperclip} size="2x" className={fileSelected ? 'checkmark-animation' : ''} />
         </label>
@@ -83,6 +96,7 @@ function ImageUpload() {
         responseMessage={responseMessage}
       />
     </div>
+
   );
 }
 

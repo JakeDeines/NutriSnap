@@ -7,7 +7,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 const OpenAI = require('openai');
-
+const sharp = require('sharp');
 const app = express();
 
 // Conditionally set CORS for development or production
@@ -44,8 +44,15 @@ if (process.env.NODE_ENV !== 'production') {
 // Route to handle image upload and analysis
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
-    const filePath = path.join(__dirname, 'uploads', req.file.filename);
-    const imageData = fs.readFileSync(filePath).toString('base64');
+    const filePath = path.join(uploadsDir, req.file.filename);
+    
+    // Use Sharp to compress the image
+    const compressedImage = await sharp(filePath)
+    .resize(100)
+    .jpeg({ quality: 60 }) // Adjust compression settings as needed
+      .toBuffer();
+    
+    const imageData = compressedImage.toString('base64');
 
     const response = await openai.chat.completions.create({
       model: "gpt-4-vision-preview",
