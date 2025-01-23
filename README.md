@@ -20,7 +20,7 @@ NutriSnap is an innovative application designed to utilize the power of artifici
 
 ![NutriSnap photo 2](https://github.com/JakeDeines/NutriSnap/assets/67669417/0641f14c-9dbe-41b1-a5e9-1f2fd61be3ba)
 
-[Check out the live app here!](nutrisnap-production-2c15.up.railway.app)
+[Check out the live app here!](https://nutrisnap-production-2c15.up.railway.app/)
 
 
 ## Installation
