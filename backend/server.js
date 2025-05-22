@@ -10,12 +10,24 @@ const sharp = require('sharp');
 
 const app = express();
 
-// CORS setup
-if (process.env.NODE_ENV === 'production') {
-  app.use(cors({ origin: 'https://nutrisnap.up.railway.app' }));
-} else {
-  app.use(cors());
-}
+// Basic middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Enhanced CORS setup
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://nutrisnap.up.railway.app', 'https://nutrisnap-production.up.railway.app']
+    : true,
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'multipart/form-data']
+};
+
+app.use(cors(corsOptions));
+
+// Handle preflight requests
+app.options('*', cors(corsOptions));
 
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -34,11 +46,22 @@ const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5M
 // OpenAI setup
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
+// Add a test endpoint to verify CORS
+app.get('/test', (req, res) => {
+  res.json({ message: 'CORS is working!', env: process.env.NODE_ENV });
+});
+
 // Upload endpoint
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
+    console.log('Upload request received:', {
+      file: req.file ? 'File received' : 'No file',
+      origin: req.headers.origin,
+      contentType: req.headers['content-type']
+    });
+
     if (!req.file || !req.file.mimetype.startsWith('image/')) {
-      return res.status(400).send('Only image uploads are allowed.');
+      return res.status(400).json({ error: 'Only image uploads are allowed.' });
     }
 
     const filePath = path.join(uploadsDir, req.file.filename);
@@ -99,6 +122,11 @@ Only return valid JSON. No markdown, no bullet points, no explanation.`
       console.warn("Failed to parse GPT response as JSON:", err);
     }
 
+    // Clean up uploaded file
+    fs.unlink(filePath, (err) => {
+      if (err) console.warn('Failed to delete uploaded file:', err);
+    });
+
     res.status(200).json({
       message: {
         content: cleanContent
@@ -108,7 +136,7 @@ Only return valid JSON. No markdown, no bullet points, no explanation.`
 
   } catch (error) {
     console.error("Error processing the image", error);
-    res.status(500).send("Error processing the image");
+    res.status(500).json({ error: "Error processing the image" });
   }
 });
 
@@ -122,8 +150,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // Global error handling
 app.use((err, req, res, next) => {
+  console.error('Global error handler:', err);
   if (process.env.NODE_ENV === 'development') {
-    console.error(err.stack);
     res.status(500).send({ message: err.message, stack: err.stack });
   } else {
     res.status(500).send({ message: "An error occurred, please try again later." });
@@ -134,4 +162,6 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV}`);
+  console.log(`CORS configured for: ${corsOptions.origin}`);
 });
