@@ -10,17 +10,13 @@ const sharp = require('sharp');
 
 const app = express();
 
-// ✅ CORS setup for both frontend and backend Railway domains
-if (process.env.NODE_ENV === 'production') {
-  app.use(cors({
-    origin: [
-      'https://nutrisnap-production.up.railway.app',
-      'https://nutrisnap.up.railway.app'
-    ]
-  }));
-} else {
-  app.use(cors());
-}
+// ✅ CORS - Allow both frontend URLs
+app.use(cors({
+  origin: [
+    'https://nutrisnap.up.railway.app',
+    'https://nutrisnap-production.up.railway.app'
+  ]
+}));
 
 // Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
