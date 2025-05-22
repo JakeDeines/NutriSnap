@@ -13,7 +13,7 @@ function ImageUpload() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [fileSelected, setFileSelected] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null); // ✅ Preview for modal
+  const [imagePreview, setImagePreview] = useState(null);
 
   const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || "http://localhost:3001";
 
@@ -22,7 +22,7 @@ function ImageUpload() {
     if (file) {
       setSelectedFile(file);
       setFileSelected(true);
-      setImagePreview(URL.createObjectURL(file)); // ✅ Set preview image
+      setImagePreview(URL.createObjectURL(file));
       if (navigator.vibrate) navigator.vibrate(50);
     } else {
       setFileSelected(false);
@@ -41,20 +41,36 @@ function ImageUpload() {
     setIsModalOpen(true);
 
     try {
-      const response = await axios.post(`${API_ENDPOINT}/upload`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
+      // FIXED: Removed the Content-Type header - let axios handle it automatically
+      const response = await axios.post(`${API_ENDPOINT}/upload`, formData);
+      
       const message = response.data.message.content;
       const finishReason = response.data.finish_reason;
       setResponseMessage({ message, finishReason });
       setFileSelected(false);
     } catch (error) {
       console.error("Error uploading the file", error);
-      setResponseMessage({
-        message: "Error processing the image",
-        finishReason: "",
-      });
+      
+      // Better error handling
+      if (error.response) {
+        // Server responded with error status
+        setResponseMessage({
+          message: `Server error: ${error.response.status} - ${error.response.data?.error || error.response.statusText}`,
+          finishReason: "",
+        });
+      } else if (error.request) {
+        // Network error (CORS, no response, etc.)
+        setResponseMessage({
+          message: "Network error: Unable to connect to server. Please check your connection.",
+          finishReason: "",
+        });
+      } else {
+        // Other error
+        setResponseMessage({
+          message: `Error: ${error.message}`,
+          finishReason: "",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -64,7 +80,7 @@ function ImageUpload() {
     setIsModalOpen(false);
     setResponseMessage(null);
     if (imagePreview) {
-      URL.revokeObjectURL(imagePreview); // ✅ Cleanup memory
+      URL.revokeObjectURL(imagePreview);
       setImagePreview(null);
     }
   };
