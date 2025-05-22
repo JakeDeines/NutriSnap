@@ -12,7 +12,7 @@ const app = express();
 
 // CORS setup
 if (process.env.NODE_ENV === 'production') {
-  app.use(cors({ origin: 'nutrisnap.up.railway.app' }));
+  app.use(cors({ origin: 'https://nutrisnap.up.railway.app' }));
 } else {
   app.use(cors());
 }
