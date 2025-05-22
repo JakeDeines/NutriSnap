@@ -10,22 +10,9 @@ const sharp = require('sharp');
 
 const app = express();
 
-// ✅ CORS setup for multiple production origins
-const allowedOrigins = [
-  'https://nutrisnap.up.railway.app',
-  'https://nutrisnap-production.up.railway.app'
-];
-
+// CORS setup
 if (process.env.NODE_ENV === 'production') {
-  app.use(cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    }
-  }));
+  app.use(cors({ origin: 'nutrisnap.up.railway.app' }));
 } else {
   app.use(cors());
 }
@@ -101,10 +88,10 @@ Only return valid JSON. No markdown, no bullet points, no explanation.`
     let cleanContent = response.choices[0].message.content;
 
     try {
-      // Remove markdown formatting and parse
-      cleanContent = JSON.parse(cleanContent.replace(/^```json\s*|```$/g, '').trim());
+      cleanContent = JSON.parse(
+        cleanContent.replace(/^```json\s*|```$/g, '').trim()
+      );
 
-      // Parse again if it's still a string
       if (typeof cleanContent === 'string' && cleanContent.trim().startsWith('{')) {
         cleanContent = JSON.parse(cleanContent);
       }
