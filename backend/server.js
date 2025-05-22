@@ -10,9 +10,14 @@ const sharp = require('sharp');
 
 const app = express();
 
-// CORS setup
+// ✅ CORS setup for both frontend and backend Railway domains
 if (process.env.NODE_ENV === 'production') {
-  app.use(cors({ origin: 'nutrisnap.up.railway.app' }));
+  app.use(cors({
+    origin: [
+      'https://nutrisnap-production.up.railway.app',
+      'https://nutrisnap.up.railway.app'
+    ]
+  }));
 } else {
   app.use(cors());
 }
