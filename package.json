@@ -12,7 +12,6 @@
     "build-frontend": "cd my-food-app && npm run build",
     "build": "npm run build-frontend",
     "postinstall": "cd backend && npm install && cd ../my-food-app && npm install && npm run build"
-
   },
   "engines": {
     "node": ">=14.0.0"
@@ -23,5 +22,9 @@
   "devDependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.3"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.0",
+    "react-spinners": "^0.14.1"
   }
 }

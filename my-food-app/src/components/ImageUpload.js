@@ -1,58 +1,72 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Modal from "./Modal"; // Import Modal component
+import Modal from "./Modal";
 import withCellPhoneFrame from "./CellPhoneFrame";
 import "./ImageUpload.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperclip, faCheck } from "@fortawesome/free-solid-svg-icons";
-import logo from'../assets/images/logo.png'; // Adjust the path as necessary
+import logo from '../assets/images/logo.png';
 
 function ImageUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [responseMessage, setResponseMessage] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fileSelected, setFileSelected] = useState(false); // Updated state name for clarity
+  const [fileSelected, setFileSelected] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imagePreview, setImagePreview] = useState(null); // ✅ Preview for modal
+
   const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT || "http://localhost:3001";
 
   const handleFileChange = (e) => {
-    if (e.target.files[0]) {
-      setSelectedFile(e.target.files[0]);
-      setFileSelected(true); // Set true as soon as a file is selected
-      if (navigator.vibrate) {
-        navigator.vibrate(50);
-      }
+    const file = e.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+      setFileSelected(true);
+      setImagePreview(URL.createObjectURL(file)); // ✅ Set preview image
+      if (navigator.vibrate) navigator.vibrate(50);
     } else {
-      setFileSelected(false); // Reset if no file is selected
+      setFileSelected(false);
+      setImagePreview(null);
     }
   };
 
   const handleUpload = async () => {
     const formData = new FormData();
-    formData.append("image", selectedFile);
+    const renamedFile = new File([selectedFile], `${Date.now()}-${selectedFile.name}`, {
+      type: selectedFile.type,
+    });
+    formData.append("image", renamedFile);
+
+    setLoading(true);
+    setIsModalOpen(true);
 
     try {
       const response = await axios.post(`${API_ENDPOINT}/upload`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
       const message = response.data.message.content;
       const finishReason = response.data.finish_reason;
       setResponseMessage({ message, finishReason });
-      setFileSelected(false); // Optionally reset after successful upload
+      setFileSelected(false);
     } catch (error) {
       console.error("Error uploading the file", error);
       setResponseMessage({
         message: "Error processing the image",
         finishReason: "",
       });
+    } finally {
+      setLoading(false);
     }
-    setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
+    setResponseMessage(null);
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview); // ✅ Cleanup memory
+      setImagePreview(null);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -61,16 +75,19 @@ function ImageUpload() {
       handleUpload();
     } else {
       console.log("No file selected");
-      setResponseMessage("No file selected");
+      setResponseMessage({ message: "No file selected", finishReason: "" });
+      setIsModalOpen(true);
     }
   };
+
   return (
     <div className="container">
       <form onSubmit={handleSubmit}>
+        {/* Hidden Inputs for Camera and File */}
         <input
           type="file"
           accept="image/*"
-          capture="environment" // Use "environment" to prefer the rear camera
+          capture="environment"
           style={{ display: "none" }}
           id="cameraInput"
           onChange={handleFileChange}
@@ -82,6 +99,8 @@ function ImageUpload() {
           id="fileInput"
           onChange={handleFileChange}
         />
+
+        {/* Buttons */}
         <label htmlFor="cameraInput" className="camera-icon">
           <img src={logo} alt="Logo" className="logo" />
         </label>
@@ -90,13 +109,16 @@ function ImageUpload() {
         </label>
         <button type="submit">Upload</button>
       </form>
+
+      {/* Modal */}
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
         responseMessage={responseMessage}
+        loading={loading}
+        imagePreview={imagePreview}
       />
     </div>
-
   );
 }
 

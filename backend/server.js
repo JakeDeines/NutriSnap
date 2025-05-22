@@ -1,4 +1,3 @@
-// Load environment variables from .env file at the very start
 require('dotenv').config();
 
 const express = require('express');
@@ -8,50 +7,49 @@ const fs = require('fs');
 const path = require('path');
 const OpenAI = require('openai');
 const sharp = require('sharp');
+
 const app = express();
 
-// Conditionally set CORS for development or production
+// CORS setup
 if (process.env.NODE_ENV === 'production') {
   app.use(cors({ origin: 'nutrisnap-production-2c15.up.railway.app' }));
 } else {
   app.use(cors());
 }
-// Ensure the uploads directory exists
+
+// Ensure uploads folder exists
 const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir, { recursive: true });
+  fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Multer setup for handling file uploads
+// Multer setup
+const sanitizeFilename = (name) => name.replace(/[^a-z0-9.-]/gi, '_');
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, path.join(__dirname, 'uploads'));
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
+  destination: (req, file, cb) => cb(null, uploadsDir),
+  filename: (req, file, cb) => cb(null, `${Date.now()}-${sanitizeFilename(file.originalname)}`)
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage, limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB max
 
-// Initialize OpenAI SDK
+// OpenAI setup
 const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
-// Log the OpenAI API key only in development environment
-if (process.env.NODE_ENV !== 'production') {
-  console.log(`OpenAI API Key: ${process.env.OPENAI_API_KEY}`);
-}
-
-// Route to handle image upload and analysis
+// Upload endpoint
 app.post('/upload', upload.single('image'), async (req, res) => {
   try {
+    if (!req.file || !req.file.mimetype.startsWith('image/')) {
+      return res.status(400).send('Only image uploads are allowed.');
+    }
+
     const filePath = path.join(uploadsDir, req.file.filename);
-    
-    // Use Sharp to compress the image
+
     const compressedImage = await sharp(filePath)
-    .resize(100)
-    .jpeg({ quality: 60 }) // Adjust compression settings as needed
+      .resize({ width: 512, fit: sharp.fit.inside, withoutEnlargement: true })
+      .modulate({ brightness: 1.05, saturation: 1.1 })
+      .sharpen()
+      .jpeg({ quality: 80 })
       .toBuffer();
-    
+
     const imageData = compressedImage.toString('base64');
 
     const response = await openai.chat.completions.create({
@@ -60,27 +58,61 @@ app.post('/upload', upload.single('image'), async (req, res) => {
         {
           role: "user",
           content: [
-            { type: "text", text: "Please provide a very short description of the image first." },
-            { type: "image_url", image_url: { "url": `data:image/jpeg;base64,${imageData}` } }
-          ],
+            { type: "text", text: "Please provide a short description of the image first." },
+            { type: "image_url", image_url: { url: `data:image/jpeg;base64,${imageData}` } }
+          ]
         },
         {
           role: "user",
           content: [
-            { type: "text", text: "Now, based on the image, can you list estimated nutritional facts for any food items detected in the format of a table with columns for nutrients, amount per serving, and percentage of daily value?" }
+            {
+              type: "text",
+              text: `Now return both the short description and nutritional information in strict JSON format like this:
+
+{
+  "description": "A sandwich with vegetables on a white paper wrap",
+  "nutrition": [
+    { "nutrient": "Calories", "amount": "400 kcal", "daily_value": "20%" },
+    { "nutrient": "Protein", "amount": "20g", "daily_value": "40%" }
+  ]
+}
+
+Only return valid JSON. No markdown, no bullet points, no explanation.`
+            }
           ]
         }
       ],
       max_tokens: 500
     });
-    res.status(200).json(response.choices[0]);
+
+    let cleanContent = response.choices[0].message.content;
+
+    try {
+      cleanContent = JSON.parse(
+        cleanContent.replace(/^```json\s*|```$/g, '').trim()
+      );
+
+      if (typeof cleanContent === 'string' && cleanContent.trim().startsWith('{')) {
+        cleanContent = JSON.parse(cleanContent);
+      }
+    } catch (err) {
+      console.warn("Failed to parse GPT response as JSON:", err);
+    }
+
+    res.status(200).json({
+      message: {
+        content: cleanContent
+      },
+      finish_reason: response.choices[0].finish_reason
+    });
+
   } catch (error) {
     console.error("Error processing the image", error);
     res.status(500).send("Error processing the image");
   }
 });
 
-// Serve static files and SPA in production
+// Serve React frontend in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../my-food-app/build')));
   app.get('*', (req, res) => {
@@ -88,7 +120,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Custom error handling
+// Global error handling
 app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === 'development') {
     console.error(err.stack);
@@ -98,8 +130,8 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Start the server
+// Start server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

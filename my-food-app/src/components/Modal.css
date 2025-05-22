@@ -5,8 +5,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.6); /* Darker overlay for better contrast */
+  backdrop-filter: blur(8px); /* More blur for a modern effect */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,26 +15,44 @@
 
 /* Modal Container */
 .modal {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Softer shadow for a more elevated effect */
   z-index: 1001;
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 600px; /* Max width to prevent stretching */
+  width: 90%;
+  max-height: 80%;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Modal Content */
 .modal-content {
-  /* Add your content styles here */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card Style */
+.card {
+  background-color: #f4f4f4; /* Softer background for cards */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Softer shadow for cards */
+  margin: 20px 0;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
 }
 
 /* Close Button */
-.modal button {
+.close-button {
   cursor: pointer;
-  background-color: #f44336;
-  color: #fff;
+  background-color: #e74c3c; /* Softer red for the button */
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -42,4 +60,21 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
+  font-size: 16px;
+}
+
+/* Heading Style */
+.card h3 {
+  margin-bottom: 10px;
+  color: #333333; /* Darker color for headings */
+}
+.image-preview-container {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
 }
