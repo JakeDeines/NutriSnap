@@ -1,74 +1,86 @@
-/* NutrientTable.css */
+/* ---------- General Container ---------- */
 
-/* Table container to handle overflow */
 .table-container {
   width: 100%;
   display: flex;
-  justify-content: center; /* Center the table horizontally */
+  justify-content: center;
+  padding: 0 1rem;
 }
 
-/* Styling for the table */
-table {
+.nutrient-table-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  margin: 10px 0;
   width: 100%;
-  max-width: 600px; /* Center the table within its container */
+  max-width: 600px;
+}
+
+/* ---------- Desktop Table Styles ---------- */
+
+.desktop-table {
+  width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
   font-size: 16px;
   text-align: left;
 }
 
-/* Styling for the table header */
-table thead tr {
+.desktop-table thead tr {
   background-color: #e0e0e0;
   color: #333333;
-  text-align: left;
   font-weight: bold;
 }
 
-/* Styling for the table cells */
-table th, table td {
+.desktop-table th,
+.desktop-table td {
   padding: 12px 15px;
   border: 1px solid #dddddd;
 }
 
-/* Alternate row styling */
-table tbody tr:nth-child(even) {
+.desktop-table tbody tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-/* Hover effect for table rows */
-table tbody tr:hover {
+.desktop-table tbody tr:hover {
   background-color: #f1f1f1;
 }
 
-/* Responsive table */
+/* ---------- Mobile Card Styles ---------- */
+
+.mobile-nutrient-cards {
+  display: none;
+}
+
+/* ---------- Responsive Layout ---------- */
+
 @media screen and (max-width: 600px) {
-  table thead {
+  .desktop-table {
     display: none;
   }
 
-  table, table tbody, table tr, table td {
-    display: block;
-    width: 100%;
+  .mobile-nutrient-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 1rem;
   }
 
-  table tr {
-    margin-bottom: 15px;
+  .mobile-nutrient-card {
+    background: #f9f9f9;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    font-size: 15px;
   }
 
-  table td {
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
+  .mobile-nutrient-card p {
+    margin: 4px 0;
   }
 
-  table td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    width: 50%;
-    padding-left: 15px;
-    font-weight: bold;
-    text-align: left;
+  .mobile-nutrient-card p strong {
+    display: inline-block;
+    width: 130px;
   }
 }

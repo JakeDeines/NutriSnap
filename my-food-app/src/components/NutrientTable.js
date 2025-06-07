@@ -4,24 +4,40 @@ import './NutrientTable.css';
 function NutrientTable({ data }) {
   return (
     <div className="table-container">
-      <table>
-        <thead>
-          <tr>
-            <th>Nutrient</th>
-            <th>Amount per Serving</th>
-            <th>% Daily Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item, index) => (
-            <tr key={index}>
-              <td data-label="Nutrient">{item.nutrient}</td>
-              <td data-label="Amount per Serving">{item.amount}</td>
-              <td data-label="% Daily Value">{item.dailyValue}</td>
+      <div className="nutrient-table-card">
+
+        {/* Desktop Table (visible on larger screens) */}
+        <table className="desktop-table">
+          <thead>
+            <tr>
+              <th>Nutrient</th>
+              <th>Amount per Serving</th>
+              <th>% Daily Value</th>
             </tr>
+          </thead>
+          <tbody>
+            {data.map((item, index) => (
+              <tr key={index}>
+                <td>{item.nutrient}</td>
+                <td>{item.amount}</td>
+                <td>{item.dailyValue}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {/* Mobile Cards (hidden on larger screens) */}
+        <div className="mobile-nutrient-cards">
+          {data.map((item, index) => (
+            <div key={index} className="mobile-nutrient-card">
+              <p><strong>Nutrient:</strong> {item.nutrient}</p>
+              <p><strong>Amount:</strong> {item.amount}</p>
+              <p><strong>% Daily Value:</strong> {item.dailyValue}</p>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+
+      </div>
     </div>
   );
 }

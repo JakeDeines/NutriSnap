@@ -1,10 +1,21 @@
-body {
-
-    background-image: url('./assets/images/cutting-board.jpg');
-    background-position: center center; /* Center the background image */
-    background-size: cover; /* Ensure the background covers the entire area */
-    background-repeat: no-repeat; /* Prevent repeating the background image */
-    margin: 0;
-
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overscroll-behavior: none; /* Prevent iOS scroll bounce */
+  scroll-behavior: smooth;
 }
 
+/* Your existing background styles, merged in */
+body {
+  background-image: url('./assets/images/cutting-board.jpg');
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  font-family: 'Montserrat', sans-serif;
+}
+#root {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
